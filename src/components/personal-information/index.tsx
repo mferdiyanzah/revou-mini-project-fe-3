@@ -1,11 +1,12 @@
 import { DatePicker, Form, Input, Row } from "antd";
 import * as dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import useFormContext from "../../pages/register/register.context";
-import { emailConfig, fullNameConfig } from "./personal-information.config";
 import { IPersonalInformationForm } from "./personal-information.interface";
 
 const PersonalInformation = () => {
+  const { t } = useTranslation();
   const { formData, setFormData, onNext } = useFormContext();
   const [form] = Form.useForm<IPersonalInformationForm>();
   const formValues = Form.useWatch([], form);
@@ -57,33 +58,53 @@ const PersonalInformation = () => {
       autoComplete="off"
       size="large"
     >
-      <Form.Item label="Full Name" name="fullName" {...fullNameConfig}>
-        <Input placeholder="Enter your full name" />
-      </Form.Item>
-
-      <Form.Item label="Email" name="email" {...emailConfig}>
-        <Input placeholder="Enter your email" />
+      <Form.Item
+        label={t("fullName")}
+        name="fullName"
+        rules={[
+          {
+            required: true,
+            message: t("fullNameRequired"),
+          },
+        ]}
+      >
+        <Input placeholder={t("fullNamePlaceholder")} />
       </Form.Item>
 
       <Form.Item
-        label="Date of Birth"
+        label={t("email")}
+        name="email"
+        rules={[
+          {
+            pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+            message: t("emailInvalid"),
+          },
+          {
+            required: true,
+            message: t("emailRequired"),
+          },
+        ]}
+      >
+        <Input placeholder={t("emailPlaceholder")} />
+      </Form.Item>
+
+      <Form.Item
+        label={t("dob")}
         name="dob"
         rules={[
-          { required: true, message: "Please select time!" },
+          { required: true, message: t("dobRequired") },
           () => ({
             validator(_, value) {
               if (value && dayjs().diff(value, "year") >= 18) {
                 return Promise.resolve();
               }
-              return Promise.reject(
-                new Error("You must be at least 18 years old!")
-              );
+              return Promise.reject(new Error(t("minAge")));
             },
           }),
         ]}
       >
         <DatePicker
-          placeholder="Select your date of birth"
+          placeholder={t("dobPlaceholder")}
           format={"DD MMMM YYYY"}
           allowClear
           className="w-full"
@@ -102,7 +123,7 @@ const PersonalInformation = () => {
           onClick={onClickNext}
           disabled={isBtnDisabled}
         >
-          Next
+          {t("nextButton")}
         </button>
       </Row>
     </Form>

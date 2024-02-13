@@ -7,7 +7,9 @@ import {
   IAddressInformationForm,
   IStateData,
 } from "./address-information.interface";
+import { useTranslation } from "react-i18next";
 const AddressInformation = () => {
+  const { t } = useTranslation();
   const { formData, setFormData, onNext, onPrev } = useFormContext();
   const [form] = Form.useForm<IAddressInformationForm>();
   const formValues = Form.useWatch([], form);
@@ -108,25 +110,34 @@ const AddressInformation = () => {
       autoComplete="off"
     >
       <Form.Item
-        label="Street Address"
+        label={t("address")}
         name="address"
-        rules={[{ required: true }]}
+        rules={[{ required: true, message: t("addressRequired") }]}
       >
-        <Input.TextArea maxLength={100} rows={4} showCount />
+        <Input.TextArea
+          placeholder={t("addressPlaceholder")}
+          maxLength={100}
+          rows={4}
+          showCount
+        />
       </Form.Item>
 
-      <Form.Item label="City" name="city" rules={[{ required: true }]}>
+      <Form.Item
+        label={t("city")}
+        name="city"
+        rules={[{ required: true, message: t("cityRequired") }]}
+      >
         <Select
           showSearch
-          placeholder="Select your city"
+          placeholder={t("cityPlaceholder")}
           options={cityOptions}
         />
       </Form.Item>
 
-      <Form.Item label="State" name="state" rules={[{ required: true }]}>
+      <Form.Item label={t("state")} name="state" rules={[{ required: true }]}>
         <Select
           showSearch
-          placeholder="Select your state"
+          placeholder={t("statePlaceholder")}
           options={stateOptions?.map((item) => ({
             label: item.name,
             value: item.name,
@@ -135,10 +146,10 @@ const AddressInformation = () => {
         />
       </Form.Item>
 
-      <Form.Item label="ZIP Code" name="zip" rules={[{ required: true }]}>
+      <Form.Item label={t("zipCode")} name="zip" rules={[{ required: true }]}>
         <Select
           showSearch
-          placeholder="Select your zip code"
+          placeholder={t("zipCodePlaceholder")}
           options={zipOptions?.map((item, idx) => ({
             label: item,
             value: String(idx),
@@ -152,7 +163,7 @@ const AddressInformation = () => {
           className="px-5 py-2 text-white rounded-md text-sm bg-blue-900"
           onClick={onPrev}
         >
-          Previous
+          {t("prevButton")}
         </button>
         <button
           className={` px-5 py-2 text-white rounded-md text-sm ${
@@ -161,7 +172,7 @@ const AddressInformation = () => {
           onClick={onClickNext}
           disabled={isNextBtnDisabled}
         >
-          Next
+          {t("nextButton")}
         </button>
       </Row>
     </Form>

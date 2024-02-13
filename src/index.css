@@ -34,3 +34,15 @@ label {
 textarea {
   resize: none !important;
 }
+
+.ant-switch-inner * {
+  font-size: 1.1em !important;
+}
+
+.ant-switch {
+  background-color: #3f72af !important;
+}
+
+.ant-switch:hover {
+  background-color: #112d4e !important;
+}

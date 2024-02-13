@@ -4,6 +4,7 @@ import AccountInformation from "../../components/account-information/index.tsx";
 import AddressInformation from "../../components/address-information/index.tsx";
 import PersonalInformation from "../../components/personal-information/index.tsx";
 import { IRegisterForm } from "./register.interface.ts";
+import { useTranslation } from "react-i18next";
 
 export const RegistrationFormContext = createContext({
   formData: {} as IRegisterForm | undefined,
@@ -14,6 +15,7 @@ export const RegistrationFormContext = createContext({
 });
 
 const Register = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<IRegisterForm>();
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -33,9 +35,9 @@ const Register = () => {
   };
 
   const steps = [
-    "Personal Information",
-    "Address Information",
-    "Account Information",
+    t("personal_information"),
+    t("address_information"),
+    t("account_information"),
   ];
 
   const items = steps.map((item, idx) => ({
@@ -48,15 +50,12 @@ const Register = () => {
       <Col
         sm={{ flex: "100%" }}
         lg={{ flex: "30%" }}
-        className="pr-4 gap-4 lg:border-r border-gray-400 grid grid-rows-2"
+        className="pr-4 lg:border-r border-gray-400 grid grid-rows-2"
       >
-        <div className="flex justify-center flex-col">
-          <h1 className="text-6xl font-bold m-0 text-blue-900">SINAU</h1>
-          <h3 className="mb-4 text-xl">Register</h3>
-          <p className="text-sm">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum
-            magnam excepturi sit quas, ratione magni, autem fuga cum saepe.
-          </p>
+        <div className="flex lg:justify-center justify-start flex-col">
+          <h1 className=" text-7xl font-bold m-0 text-blue-900">SINAU</h1>
+          <h3 className="mb-4 text-xl">{t("register")}</h3>
+          <p className="text-sm">{t("register_desc")}</p>
         </div>
 
         <Steps direction="vertical" current={currentStep} items={items} />

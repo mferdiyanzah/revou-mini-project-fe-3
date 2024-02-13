@@ -1,8 +1,10 @@
 import { Form, Input, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 import useFormContext from "../../pages/register/register.context";
+import { useTranslation } from "react-i18next";
 
 const AccountInformation = () => {
+  const { t } = useTranslation();
   const { formData, setFormData, onPrev } = useFormContext();
   const [form] = Form.useForm();
   const formValues = Form.useWatch([], form);
@@ -46,23 +48,27 @@ const AccountInformation = () => {
     rules: [
       {
         required: true,
-        message: "Please input your password!",
+        message: t("passwordRequired"),
       },
       {
         min: 8,
-        message: "Minimal 8 characters",
+        message: t("passwordMinLength"),
       },
       {
         pattern: /^(?=.*[!@#$%^&*])/,
-        message: "At least 1 special character",
+        message: t("passwordMinSpecialChar"),
       },
       {
         pattern: /^(?=.*[0-9])/,
-        message: "At least 1 number",
+        message: t("passwordMinNumber"),
       },
       {
         pattern: /^(?=.*[A-Z])/,
-        message: "At least 1 uppercase",
+        message: t("passwordMinUpperCase"),
+      },
+      {
+        pattern: /^(?=.*[a-z])/,
+        message: t("passwordMinLowerCase"),
       },
     ],
   };
@@ -74,8 +80,8 @@ const AccountInformation = () => {
     const registerData = JSON.stringify(formData);
     localStorage.setItem("registerData", registerData);
     Modal.info({
-      title: "Success",
-      content: `Your account has been created! Hi, ${values.username}!`,
+      title: t("successTitle"),
+      content: `${t("successRegister")} ${values.username}!`,
       onOk: () => {
         localStorage.clear();
         window.location.reload();
@@ -91,36 +97,48 @@ const AccountInformation = () => {
       size="large"
       form={form}
     >
-      <Form.Item label="Username" name="username" required>
-        <Input placeholder="Enter your username" />
-      </Form.Item>
-
-      <Form.Item label="Password" name="password" required {...passwordConfig}>
-        <Input.Password placeholder="Enter your password" />
+      <Form.Item
+        label={t("username")}
+        name="username"
+        rules={[
+          {
+            required: true,
+            message: t("usernameRequired"),
+          },
+        ]}
+      >
+        <Input placeholder={t("usernamePlaceholder")} />
       </Form.Item>
 
       <Form.Item
-        label="Confirm Password"
+        label={t("password")}
+        name="password"
+        required
+        {...passwordConfig}
+      >
+        <Input.Password placeholder={t("passwordPlaceholder")} />
+      </Form.Item>
+
+      <Form.Item
+        label={t("confirmPassword")}
         name="confirmPassword"
         required
         rules={[
           {
             required: true,
-            message: "Please re-input your password!",
+            message: t("confirmPasswordRequired"),
           },
           ({ getFieldValue }) => ({
             validator(_, value) {
               if (!value || getFieldValue("password") === value) {
                 return Promise.resolve();
               }
-              return Promise.reject(
-                new Error("The password that you entered do not match!")
-              );
+              return Promise.reject(new Error(t("confirmPasswordNotMatch")));
             },
           }),
         ]}
       >
-        <Input.Password placeholder="Enter your password again" />
+        <Input.Password placeholder={t("confirmPasswordPlaceholder")} />
       </Form.Item>
 
       <Row justify="space-between">
@@ -128,7 +146,7 @@ const AccountInformation = () => {
           className="px-5 py-2 text-white rounded-md text-sm bg-blue-900"
           onClick={onPrev}
         >
-          Previous
+          {t("prevButton")}
         </button>
 
         <button
@@ -138,7 +156,7 @@ const AccountInformation = () => {
           onClick={onClickFinish}
           disabled={isBtnDisabled}
         >
-          Finish
+          {t("finishButton")}
         </button>
       </Row>
     </Form>
