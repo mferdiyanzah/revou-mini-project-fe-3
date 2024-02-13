@@ -55,6 +55,9 @@ export const resources = {
       minAge: "You must be at least 18 years old!",
       successRegister: "Your account has been created! Hi, ",
       successTitle: "Success",
+      greetingMessage: "Welcome to SINAU!",
+      helloMessage: "Hello, ",
+      logout: "Logout",
     },
   },
   id: {
@@ -109,6 +112,9 @@ export const resources = {
       minAge: "Anda harus berusia minimal 18 tahun!",
       successRegister: "Akun Anda telah berhasil dibuat! Hi, ",
       successTitle: "Berhasil",
+      greetingMessage: "Selamat datang di SINAU!",
+      helloMessage: "Halo, ",
+      logout: "Keluar",
     },
   },
 };
