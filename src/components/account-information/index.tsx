@@ -1,12 +1,9 @@
 import { Form, Input, Modal, Row } from "antd";
-import { AccountInformationProps } from "./account-information.interface";
 import { useEffect, useState } from "react";
+import useFormContext from "../../pages/register/register.context";
 
-const AccountInformation = ({
-  onPrevious,
-  formData,
-  setFormData,
-}: AccountInformationProps) => {
+const AccountInformation = () => {
+  const { formData, setFormData, onPrev } = useFormContext();
   const [form] = Form.useForm();
   const formValues = Form.useWatch([], form);
   const [isBtnDisabled, setIsBtnDisabled] = useState(true);
@@ -129,7 +126,7 @@ const AccountInformation = ({
       <Row justify="space-between">
         <button
           className="px-5 py-2 text-white rounded-md text-sm bg-blue-900"
-          onClick={onPrevious}
+          onClick={onPrev}
         >
           Previous
         </button>

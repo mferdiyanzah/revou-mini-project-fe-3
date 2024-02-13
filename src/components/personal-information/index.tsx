@@ -1,17 +1,12 @@
 import { DatePicker, Form, Input, Row } from "antd";
 import * as dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import useFormContext from "../../pages/register/register.context";
 import { emailConfig, fullNameConfig } from "./personal-information.config";
-import {
-  IPersonalInformationForm,
-  PersonalInformationProps,
-} from "./personal-information.interface";
+import { IPersonalInformationForm } from "./personal-information.interface";
 
-const PersonalInformation = ({
-  onNext,
-  setFormData,
-  formData,
-}: PersonalInformationProps) => {
+const PersonalInformation = () => {
+  const { formData, setFormData, onNext } = useFormContext();
   const [form] = Form.useForm<IPersonalInformationForm>();
   const formValues = Form.useWatch([], form);
   const [isBtnDisabled, setIsBtnDisabled] = useState(true);

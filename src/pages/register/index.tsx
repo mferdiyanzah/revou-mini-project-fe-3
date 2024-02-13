@@ -1,13 +1,36 @@
 import { Col, Row, Steps } from "antd";
-import { useState } from "react";
-import PersonalInformation from "../../components/personal-information/index.tsx";
-import AddressInformation from "../../components/address-information/index.tsx";
+import { createContext, useState } from "react";
 import AccountInformation from "../../components/account-information/index.tsx";
+import AddressInformation from "../../components/address-information/index.tsx";
+import PersonalInformation from "../../components/personal-information/index.tsx";
 import { IRegisterForm } from "./register.interface.ts";
 
+export const RegistrationFormContext = createContext({
+  formData: {} as IRegisterForm | undefined,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setFormData: (_: IRegisterForm) => {},
+  onNext: () => {},
+  onPrev: () => {},
+});
+
 const Register = () => {
-  const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<IRegisterForm>();
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const onNext = () => {
+    setCurrentStep((prevStep) => prevStep + 1);
+  };
+
+  const onPrev = () => {
+    setCurrentStep((prevStep) => prevStep - 1);
+  };
+
+  const contextValue = {
+    formData,
+    setFormData,
+    onNext,
+    onPrev,
+  };
 
   const steps = [
     "Personal Information",
@@ -19,14 +42,6 @@ const Register = () => {
     key: idx,
     title: item,
   }));
-
-  const onNext = () => {
-    setCurrentStep(currentStep + 1);
-  };
-
-  const onPrev = () => {
-    setCurrentStep(currentStep - 1);
-  };
 
   return (
     <Row className="lg:h-[60vh] h-screen">
@@ -52,30 +67,13 @@ const Register = () => {
         sm={{ flex: "100%" }}
         className="w-full lg:pl-10 flex lg:items-center"
       >
-        {currentStep === 0 && (
-          <PersonalInformation
-            formData={formData}
-            setFormData={setFormData}
-            onNext={onNext}
-          />
-        )}
+        <RegistrationFormContext.Provider value={contextValue}>
+          {currentStep === 0 && <PersonalInformation />}
 
-        {currentStep === 1 && (
-          <AddressInformation
-            onPrevious={onPrev}
-            onNext={onNext}
-            formData={formData}
-            setFormData={setFormData}
-          />
-        )}
+          {currentStep === 1 && <AddressInformation />}
 
-        {currentStep === 2 && (
-          <AccountInformation
-            onPrevious={onPrev}
-            formData={formData}
-            setFormData={setFormData}
-          />
-        )}
+          {currentStep === 2 && <AccountInformation />}
+        </RegistrationFormContext.Provider>
       </Col>
     </Row>
   );

@@ -1,18 +1,14 @@
 /* eslint-disable */
 import { Form, Input, Row, Select } from "antd";
 import { useEffect, useState } from "react";
+import useFormContext from "../../pages/register/register.context";
 import { dummyStateCityZip } from "./address-information.dummy";
 import {
-  AddressInformationProps,
   IAddressInformationForm,
   IStateData,
 } from "./address-information.interface";
-const AddressInformation = ({
-  onPrevious,
-  onNext,
-  formData,
-  setFormData,
-}: AddressInformationProps) => {
+const AddressInformation = () => {
+  const { formData, setFormData, onNext, onPrev } = useFormContext();
   const [form] = Form.useForm<IAddressInformationForm>();
   const formValues = Form.useWatch([], form);
   const [selectedCity, setSelectedCity] = useState("");
@@ -154,7 +150,7 @@ const AddressInformation = ({
       <Row justify="space-between">
         <button
           className="px-5 py-2 text-white rounded-md text-sm bg-blue-900"
-          onClick={onPrevious}
+          onClick={onPrev}
         >
           Previous
         </button>
