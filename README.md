@@ -60,20 +60,24 @@ We used a clean and minimalist layout for the app, with plenty of white space an
 
 #### Step 1 - Personal Information
 
-![alt text](./public/docs/doc-1.png)
+![Personal Information](./public/docs/doc-1.png)
 
 #### Step 2 - Address Information
 
-![alt text](./public/docs/doc-2.png)
+![Address Information](./public/docs/doc-2.png)
 
 #### Step 3 - Account Information
 
-![alt text](./public/docs/doc-3.png)
+![Account Information](./public/docs/doc-3.png)
+
+#### Dashboard
+
+![Dashboard](./public/docs/doc-4.png)
 
 #### Mobile View
 
-![alt text](./public/docs/doc-4.png)
+![Mobile](./public/docs/doc-4.png)
 
 ### Demonstration Video
 
-[Here](https://drive.google.com/file/d/1XzTVE368U5xqufrI7uu3qSbpApdszmxZ/view?usp=sharing)
+[Here](https://drive.google.com/file/d/1lxXSKGhlWrSBymXQPlF9MW6wlsXB1HE4/view?usp=sharing)
