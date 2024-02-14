@@ -8,6 +8,8 @@ import {
   ICityData,
 } from "./address-information.interface";
 import { useTranslation } from "react-i18next";
+import { capitalize } from "../../utils/capitalize";
+
 const AddressInformation = () => {
   const { t } = useTranslation();
   const { formData, setFormData, onNext, onPrev } = useFormContext();
@@ -33,7 +35,7 @@ const AddressInformation = () => {
     setSelectedState(existState);
 
     const savedCityOptions =
-      (dummyStateCityZip[stateIdx]?.cities as ICityData[]) || undefined;
+      (dummyStateCityZip[stateIdx]?.cities as ICityData[]) || [];
     const cityIdx = savedCityOptions.findIndex(
       (item) => item.name === formData.state
     );
@@ -69,7 +71,7 @@ const AddressInformation = () => {
     if (formValues.state) {
       setSelectedState(formValues.state);
       const stateIdx = dummyStateCityZip.findIndex(
-        (item) => item.name === formValues.state
+        (item) => item.name === capitalize(formValues.state)
       );
       const cityOptions = dummyStateCityZip[stateIdx].cities;
       console.log(cityOptions);
@@ -78,10 +80,10 @@ const AddressInformation = () => {
 
     if (formValues.city) {
       const stateIdx = dummyStateCityZip.findIndex(
-        (item) => item.name === formValues.state
+        (item) => item.name === capitalize(formValues.state)
       );
       const cityIdx = dummyStateCityZip[stateIdx]?.cities.findIndex(
-        (item) => item.name === formValues.city
+        (item) => item.name === capitalize(formValues.city)
       );
       const zipOptions = dummyStateCityZip[stateIdx]?.cities[cityIdx]?.zip;
 
@@ -101,7 +103,7 @@ const AddressInformation = () => {
 
   const stateOptions = dummyStateCityZip.map((item) => ({
     label: item.name,
-    value: item.name,
+    value: item.name.toLowerCase(),
   }));
 
   return (
@@ -144,7 +146,7 @@ const AddressInformation = () => {
           placeholder={t("statePlaceholder")}
           options={cityOptions?.map((item) => ({
             label: item.name,
-            value: item.name,
+            value: item.name.toLowerCase(),
           }))}
           disabled={!selectedState}
         />
@@ -156,7 +158,7 @@ const AddressInformation = () => {
           placeholder={t("zipCodePlaceholder")}
           options={zipOptions?.map((item, idx) => ({
             label: item,
-            value: String(idx),
+            value: idx,
           }))}
           disabled={cityOptions === undefined || zipOptions === undefined}
         />

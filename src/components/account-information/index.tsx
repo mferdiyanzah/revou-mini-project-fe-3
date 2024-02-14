@@ -88,6 +88,7 @@ const AccountInformation = () => {
     Modal.info({
       title: t("successTitle"),
       content: `${t("successRegister")} ${values.username}!`,
+      centered: true,
       onOk: () => {
         navigate("/");
       },

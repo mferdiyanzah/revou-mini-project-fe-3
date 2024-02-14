@@ -111,6 +111,7 @@ const PersonalInformation = () => {
           disabledDate={(current) => {
             return current && current > dayjs().endOf("day");
           }}
+          minDate={dayjs().subtract(100, "year")}
           defaultPickerValue={dayjs().subtract(18, "year")}
         />
       </Form.Item>

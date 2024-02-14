@@ -46,3 +46,19 @@ textarea {
 .ant-switch:hover {
   background-color: #112d4e !important;
 }
+
+.ant-btn {
+  background-color: #3f72af !important;
+  border-color: #3f72af !important;
+  color: white !important;
+}
+
+.ant-btn:hover {
+  background-color: #112d4e !important;
+  border-color: #112d4e !important;
+  color: white !important;
+}
+
+.anticon.anticon-info-circle {
+  color: #3f72af !important;
+}
