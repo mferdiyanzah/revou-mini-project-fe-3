@@ -22,7 +22,7 @@ export interface IStateCityZip {
   }[];
 }
 
-export interface IStateData {
+export interface ICityData {
   name: string;
   zip: string[];
 }

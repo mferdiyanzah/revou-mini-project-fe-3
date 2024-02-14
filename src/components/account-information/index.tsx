@@ -11,7 +11,7 @@ const AccountInformation = () => {
   const [form] = Form.useForm();
   const formValues = Form.useWatch([], form);
   const [isBtnDisabled, setIsBtnDisabled] = useState(true);
-  const [, setUser] = useLocalStorage("user", "");
+  const [, setUser] = useLocalStorage("fullName", "");
 
   const navigate = useNavigate();
 
@@ -84,7 +84,7 @@ const AccountInformation = () => {
 
     const registerData = JSON.stringify(formData);
     localStorage.setItem("registerData", registerData);
-    setUser(values.username);
+    setUser(formData?.fullName);
     Modal.info({
       title: t("successTitle"),
       content: `${t("successRegister")} ${values.username}!`,

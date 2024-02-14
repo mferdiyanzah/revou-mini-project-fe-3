@@ -5,13 +5,14 @@ import { useNavigate } from "react-router-dom";
 
 const MainDashboard = () => {
   const { t } = useTranslation();
-  const [user] = useLocalStorage("user", "");
+  const [user] = useLocalStorage("fullName", "");
   const navigate = useNavigate();
 
   if (!user) navigate("/register");
 
   const onClickLogout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("fullName");
+    localStorage.removeItem("registerData");
     navigate("/register");
   };
 

@@ -5,7 +5,7 @@ import useFormContext from "../../pages/register/register.context";
 import { dummyStateCityZip } from "./address-information.dummy";
 import {
   IAddressInformationForm,
-  IStateData,
+  ICityData,
 } from "./address-information.interface";
 import { useTranslation } from "react-i18next";
 const AddressInformation = () => {
@@ -13,8 +13,8 @@ const AddressInformation = () => {
   const { formData, setFormData, onNext, onPrev } = useFormContext();
   const [form] = Form.useForm<IAddressInformationForm>();
   const formValues = Form.useWatch([], form);
-  const [selectedCity, setSelectedCity] = useState("");
-  const [stateOptions, setStateOptions] = useState<IStateData[]>();
+  const [selectedState, setSelectedState] = useState("");
+  const [cityOptions, setCityOptions] = useState<ICityData[]>();
   const [zipOptions, setZipOptions] = useState<string[]>();
   const [isNextBtnDisabled, setIsNextBtnDisabled] = useState(true);
 
@@ -26,18 +26,18 @@ const AddressInformation = () => {
       formData?.zip !== undefined;
     if (!formData || !isFormDataExist) return;
 
-    const existCity = formData.city ?? "";
-    const cityIdx = dummyStateCityZip.findIndex(
-      (item) => item.name === existCity
+    const existState = formData.state ?? "";
+    const stateIdx = dummyStateCityZip.findIndex(
+      (item) => item.name === existState
     );
-    setSelectedCity(existCity);
+    setSelectedState(existState);
 
-    const savedStateOptions =
-      (dummyStateCityZip[cityIdx]?.cities as IStateData[]) || undefined;
-    const stateIdx = savedStateOptions.findIndex(
+    const savedCityOptions =
+      (dummyStateCityZip[stateIdx]?.cities as ICityData[]) || undefined;
+    const cityIdx = savedCityOptions.findIndex(
       (item) => item.name === formData.state
     );
-    setStateOptions(savedStateOptions);
+    setCityOptions(savedCityOptions);
 
     const savedZipOptions =
       dummyStateCityZip[cityIdx]?.cities[stateIdx]?.zip || undefined;
@@ -66,21 +66,25 @@ const AddressInformation = () => {
 
     const formValues = form.getFieldsValue();
 
-    if (formValues.city) {
-      setSelectedCity(formValues.city);
-      const cityIdx = dummyStateCityZip.findIndex(
-        (item) => item.name === formValues.city
+    if (formValues.state) {
+      setSelectedState(formValues.state);
+      const stateIdx = dummyStateCityZip.findIndex(
+        (item) => item.name === formValues.state
       );
-      setStateOptions(dummyStateCityZip[cityIdx].cities);
+      const cityOptions = dummyStateCityZip[stateIdx].cities;
+      console.log(cityOptions);
+      setCityOptions(cityOptions);
     }
 
-    if (formValues.state) {
-      const cityIdx = dummyStateCityZip.findIndex(
+    if (formValues.city) {
+      const stateIdx = dummyStateCityZip.findIndex(
+        (item) => item.name === formValues.state
+      );
+      const cityIdx = dummyStateCityZip[stateIdx]?.cities.findIndex(
         (item) => item.name === formValues.city
       );
-      const zipOptions = dummyStateCityZip[cityIdx].cities.find(
-        (item) => item.name === formValues.state
-      )?.zip;
+      const zipOptions = dummyStateCityZip[stateIdx]?.cities[cityIdx]?.zip;
+
       setZipOptions(zipOptions);
     }
 
@@ -95,7 +99,7 @@ const AddressInformation = () => {
     onNext();
   };
 
-  const cityOptions = dummyStateCityZip.map((item) => ({
+  const stateOptions = dummyStateCityZip.map((item) => ({
     label: item.name,
     value: item.name,
   }));
@@ -123,26 +127,26 @@ const AddressInformation = () => {
       </Form.Item>
 
       <Form.Item
-        label={t("city")}
-        name="city"
-        rules={[{ required: true, message: t("cityRequired") }]}
+        label={t("state")}
+        name="state"
+        rules={[{ required: true, message: t("stateRequired") }]}
       >
         <Select
           showSearch
-          placeholder={t("cityPlaceholder")}
-          options={cityOptions}
+          placeholder={t("statePlaceholder")}
+          options={stateOptions}
         />
       </Form.Item>
 
-      <Form.Item label={t("state")} name="state" rules={[{ required: true }]}>
+      <Form.Item label={t("city")} name="city" rules={[{ required: true }]}>
         <Select
           showSearch
           placeholder={t("statePlaceholder")}
-          options={stateOptions?.map((item) => ({
+          options={cityOptions?.map((item) => ({
             label: item.name,
             value: item.name,
           }))}
-          disabled={!selectedCity}
+          disabled={!selectedState}
         />
       </Form.Item>
 
@@ -154,7 +158,7 @@ const AddressInformation = () => {
             label: item,
             value: String(idx),
           }))}
-          disabled={stateOptions === undefined || zipOptions === undefined}
+          disabled={cityOptions === undefined || zipOptions === undefined}
         />
       </Form.Item>
 
