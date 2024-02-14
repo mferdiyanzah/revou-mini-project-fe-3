@@ -72,7 +72,7 @@ We used a clean and minimalist layout for the app, with plenty of white space an
 
 #### Dashboard
 
-![Dashboard](./public/docs/doc-4.png)
+![Dashboard](./public/docs/doc-5.png)
 
 #### Mobile View
 
